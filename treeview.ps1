@@ -25,7 +25,7 @@ function Recurse-GCIObject {
     }
   }
   try {
-    $pscustomobject | Add-Member -Name Contains -Value ($InputObject | Where-Object {$_.GetType().Name -eq 'String' -and -not $pscustomobject.$_}) -MemberType NoteProperty -ErrorAction SilentlyContinue
+    $pscustomobject | Add-Member -Name Contains -Value ($InputObject | Where-Object {-not $pscustomobject.$_} | ForEach-Object {$_ + ''}) -MemberType NoteProperty -ErrorAction SilentlyContinue
   } catch {
     Write-Verbose 'Empty'
   }
@@ -37,7 +37,7 @@ function Render-Tree {
     [Parameter(Mandatory, ValueFromPipeline, HelpMessage='Items to process')]$InputObject, $lvl = 0
   )
   process {
-    if($lvl -gt 1) { $tab = (1..$lvl | ForEach-Object {"|`t"}) } else { $tab = " |`t"}
+    if($lvl -gt 1) { $tab = (1..$lvl | ForEach-Object {"|   "}) } else { $tab = " |   "}
     $InputObject | Where-Object {$_} | ForEach-Object {$_.psobject.properties.name} | ForEach-Object {
       if ($_ -ne 'Contains' -and -not [string]::IsNullOrWhiteSpace($_)) {
         if($lvl -eq 0){" +-- $_ "} else {"$tab +-- $_`n"}
