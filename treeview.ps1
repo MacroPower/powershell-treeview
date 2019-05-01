@@ -37,7 +37,7 @@ function Render-Tree {
     [Parameter(Mandatory, ValueFromPipeline, HelpMessage='Items to process')]$InputObject, $lvl = 0
   )
   process {
-    if($lvl -gt 1) { $tab = (1..$lvl | ForEach-Object {"|   "}) } else { $tab = " |   "}
+    if($lvl -gt 1) { $tab = (1..$lvl | ForEach-Object {"|  "}) } else { $tab = " |  "}
     $InputObject | Where-Object {$_} | ForEach-Object {$_.psobject.properties.name} | ForEach-Object {
       if ($_ -ne 'Contains' -and -not [string]::IsNullOrWhiteSpace($_)) {
         if($lvl -eq 0){" +-- $_ "} else {"$tab +-- $_`n"}
