@@ -6,7 +6,7 @@ Just run `ls -Recurse | Out-Tree`
 
 This is only experimental and the main intention is to allow users to create reports using *additional* cmdlets. For instance, you could run:
 
-    (Get-ChildItem -Recurse).FullName |% {"$_ - $((Get-Acl -Path $_).Access.AccessControlType | Select-Object -Unique)"} | Out-Tree
+    (Get-ChildItem -Recurse).FullName |% {"$_ - " + (Get-Acl $_).AreAccessRulesProtected} | Out-Tree
 
 If you just want to print a tree, you'd be better off with a utility like ... `tree`
 
