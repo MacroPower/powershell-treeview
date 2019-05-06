@@ -4,6 +4,7 @@ function Convert-GCItoObject {
   )
   process {
     $output = @()
+    if($InputObject.GetType().Name -ne 'String') {$InputObject = $InputObject.FullName}
     $InputObject -split '\\' | ForEach-Object { $output += $_ }
     for($i=$output.Count-1; $i -gt 0; $i--){
       $output[$i-1] = [pscustomobject]@{$output[$i-1] = $output[$i]}
